@@ -1,21 +1,10 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, { useEffect, } from 'react';
 import {
 
   StyleSheet,
-  Text,
-  useColorScheme,
-  View,
   SafeAreaView,
   NativeEventEmitter,
   NativeModules,
-  NativeAppEventEmitter
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,15 +27,14 @@ const App = () => {
       AppleHealthKit.Constants.Permissions.StepCount,
       AppleHealthKit.Constants.Permissions.BloodPressureDiastolic,
       AppleHealthKit.Constants.Permissions.BloodPressureSystolic,
-    ],
+      ],
       write: [AppleHealthKit.Constants.Permissions.Steps],
     }
   }
 
   const options = {
-    unit: 'bpm', // optional; default 'bpm'
-    startDate: new Date(2024, 2, 1).toISOString(), // required
-    // endDate: new Date().toISOString(),
+    unit: 'bpm',
+    startDate: new Date(2024, 2, 1).toISOString(),
     limit: 1,
   }
   const stepOptions = {
@@ -86,7 +74,6 @@ const App = () => {
           console.log('Error')
           return
         }
-       
         // console.log(`heartrate from ${type} => `, results)
         storeHeartRate(results[0], 'heartRate')
       },
@@ -98,10 +85,10 @@ const App = () => {
           console.log('Error')
           return
         }
-        
+
         // console.log(`resting heart rate from ${type} => `, results)
         if (results[0]?.value) {
-          storeHeartRate([{value:results[0]?.value,endDate:results[0]?.endDate}], "restingHeartRate")
+          storeHeartRate([{ value: results[0]?.value, endDate: results[0]?.endDate }], "restingHeartRate")
         }
       },
     )
@@ -109,10 +96,10 @@ const App = () => {
       stepOptions,
       (callbackError, results) => {
         if (callbackError) {
-          console.log('Error ',callbackError)
+          console.log('Error ', callbackError)
           return
         }
-        
+
         // console.log(`step count from ${type} => `, results)
         if (results?.value) {
           storeHeartRate(results.value, 'steps')
@@ -124,10 +111,10 @@ const App = () => {
       options,
       (callbackError, results) => {
         if (callbackError) {
-          console.log('Error ',callbackError)
+          console.log('Error ', callbackError)
           return
         }
-        
+
         // console.log(`blood Pressure from ${type} => `, results)
         if (results[0]?.value) {
           storeHeartRate(results[0], 'bloodPressure')

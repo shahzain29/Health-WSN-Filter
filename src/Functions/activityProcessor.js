@@ -25,7 +25,7 @@ export function ActivityProcessor() {
 
     useEffect(() => {
         console.log('medical info =>', medicalInfo)
-        console.log('heartRAte =>', restingHeartRate)
+        console.log('heartRate =>', restingHeartRate)
         latestValues = getHeartRateValueTimeDIff()
 
         Testing()

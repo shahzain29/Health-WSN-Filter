@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView,NativeModules } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -11,37 +11,19 @@ const Home = () => {
 
   const [chronicDisease, setChronicDisease] = useState(null)
   const [chronicDiseaseType, setChronicDiseaseType] = useState(null)
-  const [seriousillness, setSeriousIllness] = useState(null)
-  const [minHeartRate, setMinHeartRate] = useState(null)
-  const [maxHeartRate, setMaxHeartRate] = useState(null)
-  const [restingHeartRate, setRestingHeartRate] = useState(null)
   const [age,setAge] = useState(null)
 
   const navigation = useNavigation()
 
-
-  const getHeartRate = async () => {
-    try {
-      const value = await AsyncStorage.getAllKeys()
-      console.log('heartRate => ', value)
-    } catch (error) {
-      console.log('getHeartRate Error => ', error)
-    }
-
-  }
-
   const collectData = () => {
 
-    if (chronicDisease === null || chronicDiseaseType === null || minHeartRate === null || maxHeartRate === null || restingHeartRate===null) {
+    if (chronicDisease === null || chronicDiseaseType === null) {
       alert('Please select the options')
       return
     }
 
     const medicalData = {
       disease: chronicDiseaseType,
-      minHeartRate: minHeartRate,
-      maxHeartRate: maxHeartRate,
-      userRestingHeartRate:restingHeartRate,
       age:age
     }
 
@@ -112,70 +94,6 @@ const Home = () => {
           </>
           : null
         }
-
-        {chronicDiseaseType === 'heart' ||'hypertension' || 'asthma'?
-          <>
-            <Text>
-              What is your normal heart Rate range?
-            </Text>
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 }}>
-              <TextInput
-                placeholder='Min'
-                placeholderTextColor={'#9B9B9B'}
-                keyboardType='numeric'
-                style={styles.minMaxInput}
-                onChangeText={(text) => {
-                  setMinHeartRate(text)
-                }}
-              />
-              <TextInput
-                placeholder='Max'
-                placeholderTextColor={'#9B9B9B'}
-                keyboardType='numeric'
-                style={styles.minMaxInput}
-                onChangeText={(text) => {
-                  setMaxHeartRate(text)
-                }}
-              />
-            </View>
-
-            <Text style={{marginTop:20}}>
-              What is your Resting Heart Rate?
-            </Text>
-
-            <TextInput
-              placeholder='00'
-              placeholderTextColor={'#9B9B9B'}
-              keyboardType='numeric'
-              style={[styles.minMaxInput,{marginTop:10,marginLeft:'15%'}]}
-              onChangeText={(text) => {
-                setRestingHeartRate(text)
-              }}
-            />
-
-          </>
-          : null}
-
-        {chronicDisease === false ?
-          <>
-            <Text>
-              Have you ever been seriously ill?
-            </Text>
-            <DropDown
-              data={[
-                { label: 'Yes', value: true },
-                { label: 'No', value: false },
-              ]}
-              placeholder={'Select Choice'}
-              onChange={(item) => { setSeriousIllness(item) }}
-            />
-          </>
-          : null
-        }
-
-
-
       </View>
       <TouchableOpacity style={styles.submitButton} onPress={() => { collectData() }}>
         <Text>Submit</Text>
