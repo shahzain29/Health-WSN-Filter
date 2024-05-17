@@ -119,7 +119,7 @@ const CheckProcess = () => {
       </TouchableOpacity>
 
 
-      <TouchableOpacity style={styles.buttonStyle} onPress={() => printResults()}>
+      <TouchableOpacity style={styles.buttonStyle} >
         <Text>check Activity</Text>
       </TouchableOpacity>
     </View>
